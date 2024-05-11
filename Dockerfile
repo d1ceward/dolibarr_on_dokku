@@ -58,5 +58,6 @@ RUN curl -fLSs https://github.com/Dolibarr/dolibarr/archive/${DOLIBARR_VERSION}.
     chown -R www-data:www-data /var/www
 
 COPY ./entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
