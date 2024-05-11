@@ -43,7 +43,7 @@ RUN apt-get update -y \
   && docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j$(nproc) calendar intl mysqli pdo_mysql gd soap zip \
   && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-  && docker-php-ext-install -j$(nproc) ldap && \
+  && docker-php-ext-install -j$(nproc) ldap \
   && mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini
 
 # Get Dolibarr
