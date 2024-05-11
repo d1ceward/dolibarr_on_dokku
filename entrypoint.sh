@@ -15,6 +15,11 @@ initDolibarr() {
     mkdir -p /var/www/documents
   fi
 
+  if [[ ! -d /var/www/html/custom ]]; then
+    echo "[INIT] => create volume directory /var/www/html/custom ..."
+    mkdir -p /var/www/html/custom
+  fi
+
   echo "[INIT] => update PHP Config ..."
   cat > ${PHP_INI_DIR}/conf.d/dolibarr-php.ini << EOF
 date.timezone = ${PHP_INI_DATE_TIMEZONE}
@@ -54,11 +59,7 @@ EOF
 
   echo "[INIT] => update ownership for file in Dolibarr Config ..."
   chown www-data:www-data /var/www/html/conf/conf.php
-  if [[ ${DOLI_DB_TYPE} == "pgsql" && ! -f /var/www/documents/install.lock ]]; then
-    chmod 600 /var/www/html/conf/conf.php
-  else
-    chmod 400 /var/www/html/conf/conf.php
-  fi
+  chmod 400 /var/www/html/conf/conf.php
 
   if [[ ${CURRENT_UID} -ne ${WWW_USER_ID} || ${CURRENT_GID} -ne ${WWW_GROUP_ID} ]]; then
     # Refresh file ownership cause it has changed
@@ -84,3 +85,11 @@ DOLIBARR_DB_HOST="$(echo $DOLIBARR_DB_HOSTPORT | sed -e 's,:.*,,g')"
 DOLIBARR_DB_PORT="$(echo $DOLIBARR_DB_HOSTPORT | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')"
 
 run
+
+set -e
+
+if [ "${1#-}" != "$1" ]; then
+  set -- apache2-foreground "$@"
+fi
+
+exec "$@"
