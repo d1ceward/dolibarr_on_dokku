@@ -77,7 +77,7 @@ run() {
 }
 
 # prefix variables to avoid conflicts and run parse url function on arg url
-PREFIX="DOLIBARR_DB_" parseDatabaseURI('${DATABASE_URL}')
+PREFIX="DOLIBARR_DB_" parseDatabaseURI '${DATABASE_URL}'
 
 # Separate host and port
 DOLIBARR_DB_HOST="$(echo $DOLIBARR_DB_HOSTPORT | sed -e 's,:.*,,g')"
