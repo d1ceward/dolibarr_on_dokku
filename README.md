@@ -38,18 +38,18 @@ dokku apps:create dolibarr
 ### Install, create and link MariaDB plugin
 
 ```bash
-# Install postgres plugin on Dokku
+# Install MariaDb plugin on Dokku
 dokku plugin:install https://github.com/dokku/dokku-mariadb.git mariadb
 ```
 
 ```bash
 # Create running plugin
-dokku postgres:create dolibarr
+dokku mariadb:create dolibarr
 ```
 
 ```bash
 # Link plugin to the main app
-dokku postgres:link dolibarr dolibarr
+dokku mariadb:link dolibarr dolibarr
 ```
 
 ## Domain setup
