@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 parseDatabaseURI() {
   eval $(echo "$1" | sed -e "s#^\(\(.*\)://\)\?\(\([^:@]*\)\(:\(.*\)\)\?@\)\?\([^/?]*\)\(/\(.*\)\)\?#${PREFIX:-URI_}SCHEME='\2' ${PREFIX:-URI_}USER='\4' ${PREFIX:-URI_}PASSWORD='\6' ${PREFIX:-URI_}HOSTPORT='\7' ${PREFIX:-URI_}NAME='\9'#")
