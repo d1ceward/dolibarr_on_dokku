@@ -72,9 +72,27 @@ EOF
   fi
 }
 
+function waitForDataBase()
+{
+  r=1
+
+  while [[ ${r} -ne 0 ]]; do
+    mysql -u ${DOLIBARR_DB_USER} --protocol tcp -p${DOLIBARR_DB_PASSWORD} -h ${DOLIBARR_DB_HOST} -P ${DOLIBARR_DB_PORT} --connect-timeout=5 -e "status" > /dev/null 2>&1
+    r=$?
+    if [[ ${r} -ne 0 ]]; then
+      echo "Waiting that SQL database is up ..."
+      sleep 2
+    fi
+  done
+}
+
 run() {
   initDolibarr
   echo "Current Version is : ${DOLIBARR_VERSION}"
+
+  if [[ ${DOLIBARR_INSTALL_AUTO} -eq 1 && ! -f /var/www/documents/install.lock ]]; then
+    waitForDataBase
+  fi
 }
 
 # prefix variables to avoid conflicts and run parse url function on arg url

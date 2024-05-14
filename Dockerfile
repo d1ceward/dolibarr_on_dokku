@@ -1,6 +1,7 @@
 FROM php:8.1-apache-bullseye
 
 ENV DOLIBARR_VERSION="19.0.2"
+ENV DOLIBARR_INSTALL_AUTO 1
 ENV DOLIBARR_PROD 1
 
 ENV WWW_USER_ID 33
@@ -61,3 +62,5 @@ COPY ./entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["apache2-foreground"]
