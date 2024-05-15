@@ -44,11 +44,11 @@ EOF
 \$dolibarr_main_db_host='${DOLIBARR_DB_HOST}';
 \$dolibarr_main_db_port='${DOLIBARR_DB_PORT}';
 \$dolibarr_main_db_name='${DOLIBARR_DB_NAME}';
-\$dolibarr_main_db_prefix=llx_;
+\$dolibarr_main_db_prefix='llx_';
 \$dolibarr_main_db_user='${DOLIBARR_DB_USER}';
 \$dolibarr_main_db_pass='${DOLIBARR_DB_PASSWORD}';
-\$dolibarr_main_db_type=mysqli';
-\$dolibarr_main_authentication=dolibarr;
+\$dolibarr_main_db_type='mysqli';
+\$dolibarr_main_authentication='dolibarr';
 \$dolibarr_main_prod=${DOLIBARR_PROD};
 EOF
     if [[ ! -z ${DOLIBARR_INSTANCE_UNIQUE_ID} ]]; then
