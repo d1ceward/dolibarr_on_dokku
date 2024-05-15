@@ -36,7 +36,7 @@ EOF
     echo "[INIT] => update Dolibarr Config ..."
     cat > /var/www/html/conf/conf.php << EOF
 <?php
-\$dolibarr_main_URI_root='${DOLIBARR_URI_ROOT}';
+\$dolibarr_main_url_root='${DOLIBARR_URL_ROOT}';
 \$dolibarr_main_document_root='/var/www/html';
 \$dolibarr_main_URI_root_alt='/custom';
 \$dolibarr_main_document_root_alt='/var/www/html/custom';
