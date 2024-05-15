@@ -112,6 +112,10 @@ initializeDatabase() {
     mysql -u ${DOLIBARR_DB_USER} -p${DOLIBARR_DB_PASSWORD} -h ${DOLIBARR_DB_HOST} -P ${DOLIBARR_DB_PORT} ${DOLIBARR_DB_NAME} < ${fileSQL} > /dev/null 2>&1
   done
 
+  echo "Create SuperAdmin account ..."
+  pass_crypted=`echo -n ${DOLIBARR_ADMIN_PASSWORD} | md5sum | awk '{print $1}'`
+  mysql -u ${DOLIBARR_DB_USER} -p${DOLIBARR_DB_PASSWORD} -h ${DOLIBARR_DB_HOST} -P ${DOLIBARR_DB_PORT} ${DOLIBARR_DB_NAME} -e "INSERT INTO llx_user (entity, login, pass_crypted, lastname, admin, statut) VALUES (0, '${DOLIBARR_ADMIN_LOGIN}', '${pass_crypted}', 'SuperAdmin', 1, 1);" > /dev/null 2>&1
+
   echo "Set some default const ..."
   mysql -u ${DOLIBARR_DB_USER} -p${DOLIBARR_DB_PASSWORD} -h ${DOLIBARR_DB_HOST} -P ${DOLIBARR_DB_PORT} ${DOLIBARR_DB_NAME} -e "DELETE FROM llx_const WHERE name='MAIN_VERSION_LAST_INSTALL';" > /dev/null 2>&1
   mysql -u ${DOLIBARR_DB_USER} -p${DOLIBARR_DB_PASSWORD} -h ${DOLIBARR_DB_HOST} -P ${DOLIBARR_DB_PORT} ${DOLIBARR_DB_NAME} -e "DELETE FROM llx_const WHERE name='MAIN_NOT_INSTALLED';" > /dev/null 2>&1
