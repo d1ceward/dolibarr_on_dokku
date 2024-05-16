@@ -60,7 +60,6 @@ RUN curl -fLSs https://github.com/Dolibarr/dolibarr/archive/${DOLIBARR_VERSION}.
     mkdir -p /var/www/html/custom && \
     chown -R www-data:www-data /var/www
 
-COPY ./docker-init.php /var/www/scripts/
 COPY ./entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
