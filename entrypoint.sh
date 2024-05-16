@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 parseDatabaseURI() {
   eval $(echo "$1" | sed -e "s#^\(\(.*\)://\)\?\(\([^:@]*\)\(:\(.*\)\)\?@\)\?\([^/?]*\)\(/\(.*\)\)\?#${PREFIX:-URI_}SCHEME='\2' ${PREFIX:-URI_}USER='\4' ${PREFIX:-URI_}PASSWORD='\6' ${PREFIX:-URI_}HOSTPORT='\7' ${PREFIX:-URI_}NAME='\9'#")
 }
@@ -201,10 +203,4 @@ DOLIBARR_DB_PORT="$(echo $DOLIBARR_DB_HOSTPORT | sed -e 's,^.*:,:,g' -e 's,.*:\(
 
 run
 
-set -e
-
-if [ "${1#-}" != "$1" ]; then
-  set -- apache2-foreground "$@"
-fi
-
-exec "$@"
+apache2-foreground
