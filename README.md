@@ -52,6 +52,20 @@ dokku mariadb:create dolibarr
 dokku mariadb:link dolibarr dolibarr
 ```
 
+## Persistent storage
+
+To ensure that uploaded data persists between restarts, we create a folder on the host machine, grant write permissions to the user defined in the Dockerfile, and instruct Dokku to mount it to the app container. Follow these steps:
+
+```bash
+dokku storage:ensure-directory theoldclunker-dolibarr-documents --chown false
+dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-documents:/data
+```
+
+```bash
+dokku storage:ensure-directory theoldclunker-dolibarr-custom --chown false
+dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-custom:/data
+```
+
 ## Domain setup
 
 To enable routing for the Dolibarr app, we need to configure the domain. Execute the following command:
