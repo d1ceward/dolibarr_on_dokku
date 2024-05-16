@@ -58,12 +58,12 @@ To ensure that uploaded data persists between restarts, we create a folder on th
 
 ```bash
 dokku storage:ensure-directory theoldclunker-dolibarr-documents --chown false
-dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-documents:/data
+dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-documents:/var/www/documents
 ```
 
 ```bash
 dokku storage:ensure-directory theoldclunker-dolibarr-custom --chown false
-dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-custom:/data
+dokku storage:mount theoldclunker-dolibarr /var/lib/dokku/data/storage/theoldclunker-dolibarr-custom:/var/www/html/custom
 ```
 
 ## Domain setup
