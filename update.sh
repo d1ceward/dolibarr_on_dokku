@@ -32,10 +32,10 @@ DOLIBARR_BADGE="[![Dolibarr](https://img.shields.io/badge/Dolibarr-${RELEASE}-bl
 sed -i "s#\[\!\[Dolibarr\].*#${DOLIBARR_BADGE}#" README.md
 
 # Push changes
-# git add Dockerfile README.md
-# git commit -m "Update to Dolibarr version v${RELEASE}"
-# git push origin master
+git add Dockerfile README.md
+git commit -m "Update to Dolibarr version v${RELEASE}"
+git push origin master
 
 # Create tag
-# git tag "v${RELEASE}"
-# git push --tags
+git tag "v${RELEASE}"
+git push --tags
