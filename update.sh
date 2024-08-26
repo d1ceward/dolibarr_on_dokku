@@ -1,0 +1,41 @@
+# Pull upstream changes
+echo -e "\033[0;32m====>\033[0m Pull origin..."
+git pull
+
+echo -e "\033[0;32m====>\033[0m Initial check..."
+
+# Get current release name
+CURRENT_RELEASE=$(git tag --sort=committerdate | tail -1)
+
+# Get lastest release name
+RELEASE=$(curl --silent "https://api.github.com/repos/Dolibarr/dolibarr/releases/latest" | jq -r ".tag_name")
+
+# Exit script if already up to date
+if [ "v${RELEASE}" = $CURRENT_RELEASE ]; then
+  echo -e "\033[0;32m=>\033[0m Already up to date..."
+  exit 0
+fi
+
+# Download original Dockerfile and check for change
+curl -s -q https://raw.githubusercontent.com/Dolibarr/dolibarr/${RELEASE}/build/docker/Dockerfile -o original_dockerfile
+if ! sha256sum -c --quiet original_dockerfile.sha256sum; then
+  echo -e "\033[0;31m===>\033[0m Checksum of the original dockerfile changed"
+  echo -e "\033[0;31m=>\033[0m Require manual intervention !"
+  exit 1
+fi
+
+# Replace "ARG" line in dockerfile with the new release
+sed -i "s#ENV DOLIBARR_VERSION.*#ENV DOLIBARR_VERSION=\"${RELEASE}\"#" Dockerfile
+
+# Replace README link to Dolibarr release
+DOLIBARR_BADGE="[![Dolibarr](https://img.shields.io/badge/Dolibarr-${RELEASE}-blue.svg)](https://github.com/Dolibarr/dolibarr/releases/tag/${RELEASE})"
+sed -i "s#\[\!\[Dolibarr\].*#${DOLIBARR_BADGE}#" README.md
+
+# Push changes
+# git add Dockerfile README.md
+# git commit -m "Update to Dolibarr version v${RELEASE}"
+# git push origin master
+
+# Create tag
+# git tag "v${RELEASE}"
+# git push --tags
