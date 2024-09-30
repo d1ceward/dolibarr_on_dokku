@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye
+FROM php:8.2-apache-bookworm
 
 ENV DOLIBARR_VERSION="19.0.3"
 ENV DOLIBARR_INSTALL_AUTO 1
@@ -15,39 +15,32 @@ ENV PHP_INI_UPLOAD_MAX_FILESIZE 2M
 ENV PHP_INI_POST_MAX_SIZE 8M
 ENV PHP_INI_ALLOW_URL_FOPEN 0
 
-RUN sed -i \
-  -e 's/^\(ServerSignature On\)$/#\1/g' \
-  -e 's/^#\(ServerSignature Off\)$/\1/g' \
-  -e 's/^\(ServerTokens\) OS$/\1 Prod/g' \
-  /etc/apache2/conf-available/security.conf
-
 RUN apt-get update -y \
-  && apt-get install -y --no-install-recommends \
-      libfreetype6-dev \
-      libjpeg62-turbo-dev \
-      libjpeg62-turbo \
-      libpng-dev \
-      libpng16-16 \
-      libldap2-dev \
-      libxml2-dev \
-      libzip-dev \
-      zlib1g-dev \
-      libicu-dev \
-      g++ \
-      default-mysql-client \
-      unzip \
-      curl \
-      apt-utils \
-      msmtp \
-      msmtp-mta \
-      mailutils \
-  && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* \
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install -j$(nproc) calendar intl mysqli pdo_mysql gd soap zip \
-  && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-  && docker-php-ext-install -j$(nproc) ldap \
-  && mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini
+    && apt-get dist-upgrade -y \
+    && apt-get install -y --no-install-recommends \
+        libc-client-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libkrb5-dev \
+        libldap2-dev \
+        libpng-dev \
+        libpq-dev \
+        libxml2-dev \
+        libzip-dev \
+        default-mysql-client \
+        postgresql-client \
+        cron \
+    && apt-get autoremove -y \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) calendar intl mysqli pdo_mysql gd soap zip \
+    && docker-php-ext-configure pgsql -with-pgsql \
+    && docker-php-ext-install pdo_pgsql pgsql \
+    && docker-php-ext-configure ldap --with-libdir=lib/$(gcc -dumpmachine)/ \
+    && docker-php-ext-install -j$(nproc) ldap \
+    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+    && docker-php-ext-install imap \
+    && mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
+    && rm -rf /var/lib/apt/lists/*
 
 # Get Dolibarr
 RUN curl -fLSs https://github.com/Dolibarr/dolibarr/archive/${DOLIBARR_VERSION}.tar.gz |\
