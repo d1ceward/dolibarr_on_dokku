@@ -1,6 +1,6 @@
 ![](.github/images/repo_header.png)
 
-[![Dolibarr](https://img.shields.io/badge/Dolibarr-19.0.3-blue.svg)](https://github.com/Dolibarr/dolibarr/releases/tag/19.0.3)
+[![Dolibarr](https://img.shields.io/badge/Dolibarr-20.0.0-blue.svg)](https://github.com/Dolibarr/dolibarr/releases/tag/20.0.0)
 [![Dokku](https://img.shields.io/badge/Dokku-Repo-blue.svg)](https://github.com/dokku/dokku)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/d1ceward/dolibarr_on_dokku/graphs/commit-activity)
 # Run Dolibarr on Dokku
